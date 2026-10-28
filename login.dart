@@ -21,34 +21,26 @@ class _OpenStateState extends State<OpenState> {
       );
     }
 
-   Future<void> signIn(String mail, String password) async {
-  try {
-    await auth.signInWithEmailAndPassword(
-      email: mail,
-      password: password,
-    );
-    } on FirebaseAuthException catch (e) {
-  
-      if(e.code == 'user-not-found' ||
-      e.code == 'invalid-credential' ||
-      e.code == 'wrong-password'){
-        Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => Pagedetails(),
-      ),);
-    
-  }
-}
-  }
-  
+    Future<void> signIn(String mail, String password) async {
+      try {
+        await auth.signInWithEmailAndPassword(email: mail, password: password);
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'user-not-found' ||
+            e.code == 'invalid-credential' ||
+            e.code == 'wrong-password') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => Pagedetails()),
+          );
+        }
+      }
+    }
 
     final emailController = TextEditingController();
     final passwordController = TextEditingController();
-      Future<void> forgotPassword() async {
+    Future<void> forgotPassword() async {
       await auth.sendPasswordResetEmail(email: emailController.text);
     }
-    
 
     return Scaffold(
       body: Center(
@@ -56,13 +48,9 @@ class _OpenStateState extends State<OpenState> {
           margin: EdgeInsets.all(10),
           padding: EdgeInsets.all(10),
           width: MediaQuery.of(context).size.width,
-height: MediaQuery.of(context).size.height,
-          decoration: BoxDecoration(
-            color: Colors.white,
-           
-          ),
+          height: MediaQuery.of(context).size.height,
+          decoration: BoxDecoration(color: Colors.white),
           child: Column(
-          
             children: [
               Text("Welcome Back", style: TextStyle(fontSize: 40)),
               Text(
@@ -79,7 +67,6 @@ height: MediaQuery.of(context).size.height,
               SizedBox(height: 30),
 
               TextField(
-       
                 decoration: InputDecoration(
                   labelText: 'Email',
                   hintText: 'Enter the email',
@@ -100,48 +87,39 @@ height: MediaQuery.of(context).size.height,
                 ),
                 obscureText: true,
               ),
-         SizedBox(height: 40),
-              
- 
-SizedBox(
-  width: 150,
-  height: 45,
-  child: ElevatedButton(
-    onPressed: () {
-      signIn(
-        emailController.text,
-        passwordController.text,
-      );
-    },
-    style: ElevatedButton.styleFrom(
-      backgroundColor: Colors.blueAccent,
-      foregroundColor: Colors.white,
-  
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
-    ),
-    child: Text(
-      'Login',
-      style: TextStyle(
-        color: Colors.white,
-        fontSize: 20,
-      ),
-    ),
-  ),
-),
+              SizedBox(height: 40),
 
-SizedBox(height: 90),
-  Align(
-                    alignment: Alignment.center,
-                    child: TextButton(
-                      onPressed: forgotPassword,
-                      child: Text('Forgot Password?'),
+              SizedBox(
+                width: 150,
+                height: 45,
+                child: ElevatedButton(
+                  onPressed: () {
+                    signIn(emailController.text, passwordController.text);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blueAccent,
+                    foregroundColor: Colors.white,
+
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
                     ),
-                  ),SizedBox(height: 200),
-             
+                  ),
+                  child: Text(
+                    'Login',
+                    style: TextStyle(color: Colors.white, fontSize: 20),
+                  ),
+                ),
+              ),
 
-
+              SizedBox(height: 90),
+              Align(
+                alignment: Alignment.center,
+                child: TextButton(
+                  onPressed: forgotPassword,
+                  child: Text('Forgot Password?'),
+                ),
+              ),
+              SizedBox(height: 200),
 
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -150,31 +128,25 @@ SizedBox(height: 90),
                     "Don't have an account?",
                     style: TextStyle(fontSize: 15),
                   ),
-                
-                 TextButton(
-  onPressed: (
-    
-  ) {
-    Navigator.push(context, MaterialPageRoute(builder: (context)=>Pagedetails()));
-  
-  },
-  child: Text(
-    'Sign Up',
-    style: TextStyle(
-      color: Colors.blueAccent,
-      fontSize: 15,
-    ),
-  ),
-),
+
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Pagedetails()),
+                      );
+                    },
+                    child: Text(
+                      'Sign Up',
+                      style: TextStyle(color: Colors.blueAccent, fontSize: 15),
+                    ),
+                  ),
                 ],
               ),
-          
-
             ],
           ),
-          ),
         ),
-      );
-    
+      ),
+    );
   }
 }
